@@ -6,8 +6,6 @@ const connectDB = async () => {
         console.log("Tentative de connexion à MongoDB...");// Debugging
 
         await mongoose.connect('mongodb+srv://ayouplock:gloupoi2001@cluster0.vjamf.mongodb.net/messagerie?retryWrites=true&w=majority&appName=Cluster0', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
         });
         console.log('Connexion réussie à MongoDB');
     } catch (err) {

@@ -4,6 +4,7 @@ export default {
 
  serverMiddleware: [
     async (req, res, next) => {
+      console.log("Tentative de connexion à MongoDB au démarrage...");
       await connectDB();
       console.log("Connexion à MongoDB au démarrage réussie");
       next();
