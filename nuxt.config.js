@@ -1,4 +1,15 @@
+import connectDB from './server/db';
+
 export default {
+
+ serverMiddleware: [
+    async (req, res, next) => {
+      await connectDB();
+      console.log("Connexion à MongoDB au démarrage réussie");
+      next();
+    },
+  ],
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'cat-chat',
@@ -31,9 +42,9 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+   //'@nuxtjs/axios',//
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+   // '@nuxtjs/pwa',//
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
