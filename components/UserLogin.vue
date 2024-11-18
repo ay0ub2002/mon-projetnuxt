@@ -33,7 +33,7 @@ export default {
 
         if (response.ok) {
           // Redirige vers la page de chat si la connexion est réussie
-          window.location.href = '/chat';
+          window.location.href = '/Chat';
         } else {
           alert('Erreur de connexion');
         }
