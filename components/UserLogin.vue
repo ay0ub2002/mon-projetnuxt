@@ -12,7 +12,7 @@
       </div>
       <button type="submit">Se connecter</button>
     </form>
-    <p>Pas encore de compte ? <a href="register.html">Inscrivez-vous ici</a></p>
+    <p>Pas encore de compte ? <nuxt-link to="/register">Inscrivez-vous ici</nuxt-link></p> <!--utilisation de nuxt-link-->
   </div>
 </template>
 
