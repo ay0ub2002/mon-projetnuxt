@@ -1,4 +1,6 @@
 import connectDB from './server/db';
+import registerRoute from './server/register';
+import bodyParser from 'body-parser';
 
 export default {
 
@@ -9,6 +11,8 @@ export default {
       console.log("Connexion à MongoDB au démarrage réussie");
       next();
     },
+    bodyParser.json(),//!!!!!!
+    { path: '/api/register', handler: registerRoute },
   ],
 
   // Global page headers: https://go.nuxtjs.dev/config-head
