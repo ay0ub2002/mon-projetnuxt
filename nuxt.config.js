@@ -12,6 +12,7 @@ export default {
       next();
     },
     bodyParser.json(),//!!!!!!
+    
     { path: '/api/register', handler: registerRoute },
   ],
 

@@ -4,7 +4,7 @@ const User = require('./userModel');
 const cors = require('cors');// import de cors
 
 
-router.use(cors({ origin: 'https://cat-chatting.netlify.app/register/' }));
+router.use(cors());
 
 router.post('/', async (req, res) => {
   try {
