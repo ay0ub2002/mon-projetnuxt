@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./userModel'); // Assurez-vous que le chemin est correct
+const User = require('./userModel');
+const cors = require('cors');// import de cors
+
+
+router.use(cors({ origin: 'https://cat-chatting.netlify.app/register/' }));
 
 router.post('/', async (req, res) => {
   try {
