@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require('./userModel');
-const cors = require('cors');// import de cors
 
-
-router.use(cors());
-
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => { //  next 
+  console.log('Données reçues :', req.body); // Debug
   try {
     const { email, password } = req.body;
 
@@ -25,7 +22,7 @@ router.post('/', async (req, res) => {
     return res.status(201).json({ message: "Inscription réussie !" });
   } catch (error) {
     console.error('Erreur lors de l’inscription :', error);
-    return res.status(500).json({ message: "Erreur interne du serveur." });
+    next(error); // Transmet l'erreur
   }
 });
 
