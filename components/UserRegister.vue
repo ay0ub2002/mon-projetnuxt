@@ -76,7 +76,7 @@
         }
       },
       handleOAuth(provider) {
-        alert(`Connexion via ${provider} pas encor dispo :(`);
+        alert(`Connexion via ${provider} pas encor dispo :( lol`);
       },
     },
   };
