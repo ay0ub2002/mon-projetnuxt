@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
     console.log("Fonction connectDB appelée"); // Debugging
     try {
-        console.log("Tentative de connexion à MongoDB...");// Debugging
+        console.log("tentative de connexion a mangodb...");// Debugging
 
         await mongoose.connect('mongodb+srv://ayouplock:gloupoi2001@cluster0.vjamf.mongodb.net/messagerie?retryWrites=true&w=majority&appName=Cluster0', {
         });
