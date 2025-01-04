@@ -21,7 +21,7 @@ router.post('/', async (req, res, next) => { //  next
 
     return res.status(201).json({ message: "Inscription réussie !" });
   } catch (error) {
-    console.error('Erreur lors de l’inscription :', error);
+    console.error('Erreur lors de l’inscription :(  :', error);
     next(error); // Transmet l'erreur
   }
 });
