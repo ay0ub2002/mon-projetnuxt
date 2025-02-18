@@ -2,28 +2,23 @@ import connectDB from './server/db';
 import registerRoute from './server/register';
 import bodyParser from 'body-parser';
 
-
-
+// Ajoute ta nouvelle route ici
+import helloRoute from './server/api/yo'; 
 
 export default {
- 
- serverMiddleware: [
+  serverMiddleware: [
     async (req, res, next) => {
       console.log("Tentative de connexion à MongoDB au démarrage...");
       await connectDB();
       console.log("Connexion à MongoDB au démarrage réussie");
       next();
-
-
     },
-    bodyParser.json(),//!!!!!!
-    
-    
-
+    bodyParser.json(),
     { path: '/api/register', handler: registerRoute },
+    { path: '/api/yo', handler: helloRoute }, 
   ],
 
-  // Global page headers: https://go.nuxtjs.dev/config-head
+  // Global page headers
   head: {
     title: 'cat-chat',
     meta: [
@@ -35,44 +30,42 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  // Global CSS
   css: [],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  // Plugins to run before rendering page
   plugins: [],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  // Auto import components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  // Modules for dev and build (recommended)
   buildModules: [
-    // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // Modules
   modules: [
-    // https://go.nuxtjs.dev/axios
-   //'@nuxtjs/axios',//
-    // https://go.nuxtjs.dev/pwa
-   // '@nuxtjs/pwa',//
+    // '@nuxtjs/axios',
+    // '@nuxtjs/pwa',
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  // Axios module configuration
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
 
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  // PWA module configuration
   pwa: {
     manifest: {
       lang: 'en',
     },
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  // Build Configuration
   build: {},
 }
+
+
+
