@@ -2,7 +2,7 @@ import connectDB from './server/db';
 import registerRoute from './server/register';
 import bodyParser from 'body-parser';
 
-// Ajoute ta nouvelle route ici
+
 import helloRoute from './server/api/yo'; 
 
 export default {
