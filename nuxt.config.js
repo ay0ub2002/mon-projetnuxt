@@ -67,7 +67,7 @@ export default {
   build: {},
 
   server: {
-    port: 3001,      
+    port: 80,       // finalement ??
     host: '0.0.0.0', // ouvre ecoute a l'ext
   }
 
