@@ -58,52 +58,49 @@ export default {
   name: "ChatArea",
   data() {
     return {
-      username: 'Anonyme',
+      // Génère un username aléatoire pour l'utilisateur
+      username: 'Anonyme' + Math.floor(Math.random() * 10000),
       newMessage: '',
-      messages: [], // Tableau pour stocker les messages
+      messages: [],
+      messageInterval: null, // pour le setInterval
     };
   },
 
   mounted() {
     this.loadMessages();
 
+    // Recharge automatiquement toutes les 3 secondes
+    this.messageInterval = setInterval(() => {
+      this.loadMessages();
+    }, 3000);
+
+    // Envoi du message en appuyant sur Enter
     this.$refs.messageInput.addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
         this.sendMessage();
       }
     });
-      // Rafraîchir les messages toutes les 3 secondes
-    this.refreshInterval = setInterval(() => {
-      this.loadMessages();
-    }, 3000);
   },
 
-
-
-
-
-
-
+  beforeDestroy() {
+    // Nettoie l'intervalle quand le composant est détruit
+    clearInterval(this.messageInterval);
+  },
 
   methods: {
     async loadMessages() {
-  try {
-    const res = await fetch('/api/messages');
-    const data = await res.json();
-    
-    // Tri des messages par date
-    data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-    
-    // Ajoute un type 'received' pour l'affichage
-    this.messages = data.map(msg => ({
-      ...msg,
-      type: 'received'
-    }));
+      try {
+        const res = await fetch('/api/messages');
+        const data = await res.json();
 
-  } catch (err) {
-    console.error('Erreur de chargement des messages', err);
-  }
-},
+        // Tri des messages par date
+        data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        this.messages = data;
+      } catch (err) {
+        console.error('Erreur de chargement des messages', err);
+      }
+    },
 
     async sendMessage() {
       const messageText = this.$refs.messageInput.value.trim();
@@ -115,15 +112,12 @@ export default {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               username: this.username,
-                content: messageText
-                  }),
+              content: messageText
+            }),
           });
 
           if (response.ok) {
-            // recharge la liste des messages après l'envoi
             await this.loadMessages();
-
-            // vide le champ
             this.$refs.messageInput.value = "";
           } else {
             console.error('Erreur lors de l\'envoi du message');
@@ -136,6 +130,7 @@ export default {
   },
 };
 </script>
+
 
 
 <style scoped src="@/assets/styles.css"></style>
