@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const messagesRoute = require('./server/messages');
 const helloRoute = require('./server/api/yo');
 
-export default {
+module.exports = {
   serverMiddleware: [
     (req, res, next) => {
       console.log("Tentative de connexion à MongoDB au démarrage...");
