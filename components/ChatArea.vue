@@ -17,10 +17,6 @@
     </div>
 
     <!-- Zone principale de conversation -->
-   
-    
-
-   
     <div class="chat-area">
       <div class="chat-header">
         <img src="~/assets/resources/pdp.jpeg" alt="Profil" class="profile-img">
@@ -29,17 +25,20 @@
           <p class="status">En ligne</p>
         </div>
       </div>
+
+      <!-- Messages -->
       <div class="chat-messages" ref="chatMessages">
-        <!-- Affiche chaque message dans une bulle -->
         <div
           v-for="(message, index) in messages"
           :key="index"
-          :class="['message', 'received']"
+          :class="['message', message.username === username ? 'sent' : 'received']"
         >
           <p>{{ message.content }}</p>
           <span class="timestamp">{{ message.time }}</span>
         </div>
       </div>
+
+      <!-- Input -->
       <div class="message-input-area">
         <input
           type="text"
@@ -52,6 +51,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
