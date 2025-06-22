@@ -75,9 +75,9 @@ export default {
   build: {},
 
   server: {
-    port: 58401,       // finalement ??
-    host: '0.0.0.0', // ouvre ecoute a l'ext
-  }
+    port: process.env.PORT || 3000,
+    host: '0.0.0.0',
+}
 
 
 
