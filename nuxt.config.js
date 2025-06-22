@@ -1,27 +1,27 @@
-import connectDB from './server/db';
-import registerRoute from './server/register';
-import bodyParser from 'body-parser';
-import messagesRoute from './server/messages';
-
-
-import helloRoute from './server/api/yo'; 
+const connectDB = require('./server/db');
+const registerRoute = require('./server/register');
+const bodyParser = require('body-parser');
+const messagesRoute = require('./server/messages');
+const helloRoute = require('./server/api/yo');
 
 export default {
   serverMiddleware: [
-    async (req, res, next) => {
+    (req, res, next) => {
       console.log("Tentative de connexion à MongoDB au démarrage...");
-      await connectDB();
-      console.log("Connexion à MongoDB au démarrage réussie");
-      next();
+      connectDB().then(() => {
+        console.log("Connexion à MongoDB au démarrage réussie");
+        next();
+      }).catch(err => {
+        console.error("Erreur connexion MongoDB", err);
+        next();
+      });
     },
     bodyParser.json(),
     { path: '/api/register', handler: registerRoute },
-    { path: '/api/yo', handler: helloRoute }, 
-
+    { path: '/api/yo', handler: helloRoute },
     { path: '/api/messages', handler: messagesRoute },
   ],
 
-  // Global page headers
   head: {
     title: 'cat-chat',
     meta: [
@@ -33,57 +33,31 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  
-
-
-
-
-  // Global CSS
   css: [],
-
-  // Plugins to run before rendering page
   plugins: [],
-
-  // Auto import components
   components: true,
 
-  // Modules for dev and build (recommended)
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/stylelint-module',
   ],
 
-  // Modules
-  modules: [
-    // '@nuxtjs/axios',
-    // '@nuxtjs/pwa',
-  ],
+  modules: [],
 
-  // Axios module configuration
   axios: {
     baseURL: '/',
   },
 
-  // PWA module configuration
   pwa: {
     manifest: {
       lang: 'en',
     },
   },
 
-  // Build Configuration
   build: {},
 
   server: {
     port: process.env.PORT || 3000,
     host: '0.0.0.0',
-}
-
-
-
-
-
-}
-
-
-
+  }
+};
