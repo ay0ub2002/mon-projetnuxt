@@ -1,6 +1,7 @@
 import connectDB from './server/db';
 import registerRoute from './server/register';
 import bodyParser from 'body-parser';
+import messagesRoute from './server/messages';
 
 
 import helloRoute from './server/api/yo'; 
@@ -16,6 +17,8 @@ export default {
     bodyParser.json(),
     { path: '/api/register', handler: registerRoute },
     { path: '/api/yo', handler: helloRoute }, 
+
+    { path: '/api/messages', handler: messagesRoute },
   ],
 
   // Global page headers
@@ -29,6 +32,11 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+
+  
+
+
+
 
   // Global CSS
   css: [],

@@ -149,6 +149,9 @@ h2 {
     overflow-y: auto;
     padding-right: 10px;
     scroll-behavior: smooth;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end; /*!!!*/
 }
 
 .message {
@@ -182,7 +185,7 @@ h2 {
 .message.sent {
     background: linear-gradient(135deg, #3a506b, #274060); 
     align-self: flex-end;
-    color: white;
+    color: rgb(205, 205, 223);
 }
 
 .timestamp {

@@ -17,6 +17,10 @@
     </div>
 
     <!-- Zone principale de conversation -->
+   
+    
+
+   
     <div class="chat-area">
       <div class="chat-header">
         <img src="~/assets/resources/pdp.jpeg" alt="Profil" class="profile-img">
@@ -30,9 +34,9 @@
         <div
           v-for="(message, index) in messages"
           :key="index"
-          :class="['message', message.type]"
+          :class="['message', 'received']"
         >
-          <p>{{ message.text }}</p>
+          <p>{{ message.content }}</p>
           <span class="timestamp">{{ message.time }}</span>
         </div>
       </div>
@@ -54,40 +58,72 @@ export default {
   name: "ChatArea",
   data() {
     return {
+      username: 'Anonyme',
+      newMessage: '',
       messages: [], // Tableau pour stocker les messages
     };
   },
+
   mounted() {
-    // Envoi du message en appuyant sur Enter
+    this.loadMessages();
+
     this.$refs.messageInput.addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
         this.sendMessage();
       }
     });
   },
+
   methods: {
-    sendMessage() {
-      const messageText = this.$refs.messageInput.value.trim(); // Récupère et nettoie le texte du message
+    async loadMessages() {
+      try {
+        const res = await fetch('/api/messages');
+        const data = await res.json();
+        
+        // Tri des messages par date
+    data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        
+        
+        this.messages = data;
+
+
+
+      } catch (err) {
+        console.error('Erreur de chargement des messages', err);
+      }
+    },
+
+    async sendMessage() {
+      const messageText = this.$refs.messageInput.value.trim();
 
       if (messageText) {
-        // Ajoute le message dans le tableau de messages
-        this.messages.push({
-          text: messageText,
-          type: "sent", // Style du message
-          time: new Date().toLocaleTimeString(),
-        });
+        try {
+          const response = await fetch('/api/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: this.username,
+                content: messageText
+                  }),
+          });
 
-        // Définit la zone de chat pour défiler vers le bas
-        this.$nextTick(() => {
-          this.$refs.chatMessages.scrollTop = this.$refs.chatMessages.scrollHeight;
-        });
+          if (response.ok) {
+            // recharge la liste des messages après l'envoi
+            await this.loadMessages();
 
-        // Vide le champ de saisie du message
-        this.$refs.messageInput.value = "";
+            // vide le champ
+            this.$refs.messageInput.value = "";
+          } else {
+            console.error('Erreur lors de l\'envoi du message');
+          }
+        } catch (err) {
+          console.error('Erreur réseau', err);
+        }
       }
     },
   },
 };
 </script>
+
 
 <style scoped src="@/assets/styles.css"></style>
