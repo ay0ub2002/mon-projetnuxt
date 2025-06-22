@@ -58,23 +58,27 @@ export default {
   name: "ChatArea",
   data() {
     return {
-      // Génère un username aléatoire pour l'utilisateur
-      username: 'Anonyme' + Math.floor(Math.random() * 10000),
+      username: localStorage.getItem('username') || 'Anonyme' + Math.floor(Math.random() * 10000),
       newMessage: '',
       messages: [],
-      messageInterval: null, // pour le setInterval
+      messageInterval: null,
     };
   },
 
   mounted() {
+    // Si pas de username déjà stocké, on le met dans localStorage
+    if (!localStorage.getItem('username')) {
+      localStorage.setItem('username', this.username);
+    }
+
     this.loadMessages();
 
-    // Recharge automatiquement toutes les 3 secondes
+    // Refresh automatique des messages toutes les 3 secondes
     this.messageInterval = setInterval(() => {
       this.loadMessages();
     }, 3000);
 
-    // Envoi du message en appuyant sur Enter
+    // Envoi du message avec la touche Entrée
     this.$refs.messageInput.addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
         this.sendMessage();
@@ -83,7 +87,7 @@ export default {
   },
 
   beforeDestroy() {
-    // Nettoie l'intervalle quand le composant est détruit
+    // Nettoie l'intervalle si le composant est détruit
     clearInterval(this.messageInterval);
   },
 
@@ -93,7 +97,7 @@ export default {
         const res = await fetch('/api/messages');
         const data = await res.json();
 
-        // Tri des messages par date
+        // Trie les messages par date
         data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
         this.messages = data;
@@ -130,7 +134,3 @@ export default {
   },
 };
 </script>
-
-
-
-<style scoped src="@/assets/styles.css"></style>
