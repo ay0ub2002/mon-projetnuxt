@@ -58,7 +58,7 @@ export default {
   name: "ChatArea",
   data() {
     return {
-      username: localStorage.getItem('username') || 'Anonyme' + Math.floor(Math.random() * 10000),
+      username: 'Anonyme',  // valeur temporaire
       newMessage: '',
       messages: [],
       messageInterval: null,
@@ -66,8 +66,12 @@ export default {
   },
 
   mounted() {
-    // Si pas de username déjà stocké, on le met dans localStorage
-    if (!localStorage.getItem('username')) {
+    // Initialisation du username avec localStorage (dans le navigateur seulement)
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      this.username = storedUsername;
+    } else {
+      this.username = 'Anonyme' + Math.floor(Math.random() * 10000);
       localStorage.setItem('username', this.username);
     }
 
@@ -87,7 +91,6 @@ export default {
   },
 
   beforeDestroy() {
-    // Nettoie l'intervalle si le composant est détruit
     clearInterval(this.messageInterval);
   },
 
@@ -97,9 +100,7 @@ export default {
         const res = await fetch('/api/messages');
         const data = await res.json();
 
-        // Trie les messages par date
         data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-
         this.messages = data;
       } catch (err) {
         console.error('Erreur de chargement des messages', err);
@@ -134,3 +135,7 @@ export default {
   },
 };
 </script>
+
+
+
+<style scoped src="@/assets/styles.css"></style>
