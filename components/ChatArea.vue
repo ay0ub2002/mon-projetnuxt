@@ -72,26 +72,38 @@ export default {
         this.sendMessage();
       }
     });
+      // Rafraîchir les messages toutes les 3 secondes
+    this.refreshInterval = setInterval(() => {
+      this.loadMessages();
+    }, 3000);
   },
+
+
+
+
+
+
+
 
   methods: {
     async loadMessages() {
-      try {
-        const res = await fetch('/api/messages');
-        const data = await res.json();
-        
-        // Tri des messages par date
+  try {
+    const res = await fetch('/api/messages');
+    const data = await res.json();
+    
+    // Tri des messages par date
     data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        
-        
-        this.messages = data;
+    
+    // Ajoute un type 'received' pour l'affichage
+    this.messages = data.map(msg => ({
+      ...msg,
+      type: 'received'
+    }));
 
-
-
-      } catch (err) {
-        console.error('Erreur de chargement des messages', err);
-      }
-    },
+  } catch (err) {
+    console.error('Erreur de chargement des messages', err);
+  }
+},
 
     async sendMessage() {
       const messageText = this.$refs.messageInput.value.trim();
